@@ -1,0 +1,84 @@
+@(message : String, userForm : Form[User])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("mail")){
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#birthday").datepicker({dateFormat:'dd-mm-yy', showAnim:'fadeIn'});
+	$("#mail").blur(function(){
+		if(!MailChecker($("#mail").val())){
+			  alert('Not Right email');
+			}
+	});
+});
+</script>
+
+	<h3>@Messages("createAccount")</h3>
+	
+	<h4>@message</h4>
+
+		@form(action=routes.Index.newAccount(), 'enctype -> "multipart/form-data") {
+			@inputText(userForm("lastName"),'_label -> Messages("lastName"), '_showConstraints -> false)
+			
+			@inputText(userForm("firstName"),'_label -> Messages("firstName"), '_showConstraints -> false)
+			
+			@inputText(userForm("nickname"),'_label -> Messages("nickname"), '_showConstraints -> false)
+			
+			@inputPassword(userForm("password"),'_label -> Messages("password"),'_showConstraints -> false)
+			
+			<div class="clearfix" id="confirmPassword_field">
+			    <label for="confirmPassword">@Messages("confirmPassword")</label>
+			    <div class="input">
+			        
+			    	<input type="password" id="confirmPassword" name="confirmPassword"/>
+			    </div>
+			</div>
+			
+			@inputText(userForm("mail"),'_label -> Messages("mailAddress"),  '_showConstraints -> false)
+			
+			<div class="clearfix" id="birthday_field">
+			    <label for="birthday">@Messages("birthday")</label>
+			    <div class="input">
+			        
+			    	<input type="text" id="birthday" name="birthday"/>
+			    </div>
+			</div>
+			
+			<div class="clearfix" id="epsiClass_field">
+			    <label for="epsiClass">@Messages("epsiClass")</label>
+			    <div class="input">
+			        
+			    	<select id="epsiClass" name="epsiClass">
+			    		@for(c <- enumeration.EpsiClass.values()) {
+			    	 	<option id="@c.getName()">@c.getName()</option>
+			    	 }
+			    	</select>
+			
+			    </div>
+			</div>
+			
+			<div class="clearfix" id="secretQuestion_field">
+			    <label for="secretQuestion">@Messages("secretQuestion")</label>
+			    <div class="input">
+			        
+			    	<select id="secretQuestion" name="secretQuestion">
+			    		@for(c <- enumeration.SecretQuestion.values()) {
+			    	 	<option id="@c.getQuestion()" value="@c">@c.getQuestion()</option>
+			    	 }
+			    	</select>
+			    </div>
+			</div>
+			
+			@inputText(userForm("response"),'_label -> Messages("response"),'_showConstraints -> false)
+			
+			@inputFile(userForm("avatar"),'_label -> Messages("avatar"), '_showConstraints -> false)
+			
+			<input type="submit" value=@Messages("submit")>
+		}
+		
+		<br/>
+		<a class="btn btn-default" href=@routes.Index.backIndex()>@Messages("cancel")</a>
+}

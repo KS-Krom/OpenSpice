@@ -1,0 +1,290 @@
+@(user : User)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("profile")) {
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#birthday").datepicker({dateFormat:'dd-mm-yy', showAnim:'fadeIn'});
+});
+</script>
+
+<h1>@user.firstName @user.lastName</h1>
+
+<!-- Modal modify birthday-->
+		<div class="modal fade" id="modalBirthday" tabindex="-1" role="dialog" aria-labelledby="modalLabelBirthday" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="modalLabelBirthday">@Messages("newBirthday")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Account.modifyBirthday()">
+				  <div class="modal-body">
+						<input type="text" name="birthday" id="birthday"/>			
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+
+<!-- Modal modify epsiClass-->
+		<div class="modal fade" id="modalClass" tabindex="-1" role="dialog" aria-labelledby="modalLabelClass" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="modalLabelClass">@Messages("newEpsiClass")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Account.modifyEpsiClass()">
+				  <div class="modal-body">
+						<select id="epsiClass" name="epsiClass">
+				    		@for(c <- enumeration.EpsiClass.values()) {
+				    	 	<option id="@c.getName()">@c.getName()</option>
+				    	 }
+				    	</select>			
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+
+<!-- Modal modify password -->
+		<div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="modalLabelPassword" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="modalLabelPassword">@Messages("newPassword")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Account.modifyPassword()">
+				  <div class="modal-body">
+				  	<label for="oldPassword">@Messages("oldPassword") :</label>
+				  	<input type="password" id="oldPassword" name="oldPassword">
+			      </div>
+			      
+			      <div class="modal-body">
+			      	<label for="newPassword">@Messages("newPassword") :</label>
+			      	<input type="password" id="newPassword" name="newPassword">
+			      </div>
+			      
+			      <div class="modal-body">
+			      	<label for="confirmPassword">@Messages("confirmPassword") :</label>
+			      	<input type="password" id="confirmPassword" name="confirmPassword">
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+	
+<!-- Modal modify nickname -->
+		<div class="modal fade" id="modalNickname" tabindex="-1" role="dialog" aria-labelledby="modalLabelNickname" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="modalLabelNickname">@Messages("newNickname")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Account.modifyNickname()">
+				  <div class="modal-body">
+						<input type="text" id="nickname" name="nickname">
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+<!-- Modal modify firstName -->
+		<div class="modal fade" id="modalFirstName" tabindex="-1" role="dialog" aria-labelledby="modalLabelFirstName" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="modalLabelFirstName">@Messages("newFirstName")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Account.modifyFirstName()">
+				  <div class="modal-body">
+						<input type="text" id="firstName" name="firstName">
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+
+<!-- Modal modify LastName -->
+		<div class="modal fade" id="modalLastName" tabindex="-1" role="dialog" aria-labelledby="modalLabelLastName" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="modalLabelLastName">@Messages("newLastName")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Account.modifyLastName()">
+				  <div class="modal-body">
+						<input type="text" id="lastName" name="lastName">
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+<!-- Modal modify avatar -->
+		<div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="modalLabelAvatar" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="modalLabelAvatar">@Messages("newAvatar")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Account.modifyAvatar()" enctype="multipart/form-data">
+				  <div class="modal-body">
+						<input type="file" id="avatar" name="avatar">
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+
+<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-6">
+			<div class="row">
+				<div class="col-sm-4">
+					@user.mail
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<img src=@routes.Assets.at("images/"+user.nickname+"/"+user.avatar)>
+				</div>
+				@if(session.get("email") == user.mail) {
+					<div class="col-sm-2">
+						<a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#modalAvatar">
+					  		@Messages("modify")
+						</a>
+					</div>
+				}
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					@user.firstName
+				</div>
+				@if(session.get("email") == user.mail) {
+					<div class="col-sm-2">
+						<a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#modalFirstName">
+					  		@Messages("modify")
+						</a>
+					</div>
+				}
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					@user.lastName
+				</div>
+				@if(session.get("email") == user.mail) {
+					<div class="col-sm-2">
+						<a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#modalLastName">
+					  		@Messages("modify")
+						</a>
+					</div>
+				}
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					@user.nickname
+				</div>
+				@if(session.get("email") == user.mail) {
+					<div class="col-sm-2">
+						<a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#modalNickname">
+					  		@Messages("modify")
+						</a>
+					</div>
+				}
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					@user.birthday
+				</div>
+				@if(session.get("email") == user.mail) {
+					<div class="col-sm-2">
+						<a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#modalBirthday">
+					  		@Messages("modify")
+						</a>
+					</div>
+				}
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					@user.epsiClass
+				</div>
+				@if(session.get("email") == user.mail) {
+					<div class="col-sm-2">
+						<a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#modalClass">
+					  		@Messages("modify")
+						</a>
+					</div>
+				}
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					@Messages("password") : *****
+				</div>
+				@if(session.get("email") == user.mail) {
+					<div class="col-sm-2">
+						<a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#modalPassword">
+					  		@Messages("modify")
+						</a>
+					</div>
+				}
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					@if(session.get("email") == user.mail) {
+				  		@user.flag
+					}
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-sm-4">
+			@menu(user)
+		</div>
+	</div>
+}

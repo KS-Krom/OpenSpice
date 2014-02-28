@@ -1,0 +1,38 @@
+@(mailForm : Form[Mail], user : User, to : String)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("welcome")){
+
+	<h1>@Messages("newMail")</h1>
+	
+	<div class="row">
+		<div class="col-sm-3">
+			@form(action=routes.Email.sendMail(),'enctype -> "multipart/form-data") {
+		
+				@inputText(mailForm("subject"),'_label -> Messages("subject"), '_showConstraints -> false)
+				
+				<div class="clearfix  " id="to_field">
+				    <label for="to">@Messages("to")</label>
+				    <div class="input">
+				        
+				    <input type="text" id="to" name="to" value="@to" >
+				    </div>
+				</div>
+			
+				@textarea(mailForm("text"),'_label -> Messages("body"), '_showConstraints -> false)
+			
+				@inputFile(mailForm("file"),'_label -> Messages("file"), '_showConstraints -> false)
+				
+				<input type="submit" value=@Messages("send")>
+			}
+			@to
+		</div>
+
+		<div class="col-sm-4 col-sm-offset-5">
+			@menu(user)
+		</div>
+	</div>
+	
+}

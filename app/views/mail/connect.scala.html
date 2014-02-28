@@ -1,0 +1,23 @@
+@(message : String)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("mailAccess")){
+	<h1>@Messages("mailAccess")</h1>
+
+	<h4>@message</h4>
+
+	@form(routes.Email.checkAccessMail()) {
+		<div class="clearfix" id="token_field">
+		    <label for="token">@Messages("activationToken")</label>
+		    <div class="input">
+		        
+		    	<input type="text" id="token" name="token"/>
+		    </div>
+		</div>
+		
+		<input type="submit" value=@Messages("submit")>
+	}
+	<a class="btn btn-default" href=@routes.Index.backIndex()>@Messages("cancel")</a>
+}

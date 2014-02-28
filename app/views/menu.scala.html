@@ -1,0 +1,81 @@
+@(user: User)
+
+<script type="text/javascript" src="@routes.Greeting.ajaxSearchFriends"></script>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+	var findFriends = function(){
+		var find = $('#findFriends').val();
+		
+		jsRoutes.controllers.Greeting.findFriends(find).ajax({
+			success : function(data){
+				$('#renderFriends').html(data).show();
+			},
+			error : function()
+			{
+				alert("si la recherche ne fonctionne pas, veuillez autoriser le chargement de tout le contenu sur le site");
+			}
+		})
+	};
+	
+	$('#findFriends').keyup(findFriends);
+});
+</script>
+
+<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">@Messages("newGreeting")</h4>
+		      </div>
+		      
+				<form method="POST" action="@routes.Greeting.newGreeting()">
+				  <div class="modal-body">
+						<input type="text" name="greeting" id="greeting" title=@Messages("newGreeting")/>			
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+
+<ul class="nav text-right">
+	<li>
+		<a href="@routes.Account.profile(user.nickname)">@user.firstName @user.lastName</a>
+	</li>
+	@if(factory.UserFactory.findByMail(session.get("email")).roles == enumeration.UserRole.ADMIN) {
+	<li>
+		<a href="#" data-toggle="modal" data-target="#myModal">
+		  @Messages("welcomeModify")
+		</a>
+
+	</li>
+	}
+	<li>
+		<a href="@routes.Email.connect()">@Messages("mail")<span class="glyphicon glyphicon-envelope"></span></a>
+		@number = @{controllers.Greeting.mailNotRead()}
+		
+		@if(number>0) {
+			@number
+		}
+	</li>
+	<li>
+		<a href=@routes.Greeting.index(session.get("nickname")) id="welcome">@Messages("welcome")</a>
+	</li>
+	<li>
+		<a href=@routes.Index.logout()>@Messages("logout")</a>
+	</li>
+	<li>
+		 <div class="form-group">
+		    <input type="text" class="form-control" id="findFriends" placeholder='@Messages("findFriends")'>
+		  </div>
+		  <div class="content">
+		  	<div id="renderFriends"/>
+		  </div>
+	</li>
+</ul>

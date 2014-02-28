@@ -1,0 +1,22 @@
+@(user : User, message : String)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("adminAccess")){
+	<h1>@Messages("adminAccess")</h1>
+
+	<h4>@message</h4>
+
+	@form(routes.Index.checkActivationKey(user.nickname)) {
+		<div class="clearfix" id="key_field">
+		    <label for="key">@Messages("activationKey")</label>
+		    <div class="input">
+		        
+		    	<input type="text" id="key" name="key"/>
+		    </div>
+		</div>
+		
+		<input type="submit" value=@Messages("submit")>
+	}
+}

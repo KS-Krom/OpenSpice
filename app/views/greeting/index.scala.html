@@ -1,0 +1,133 @@
+@(text : String, user : User, messageForm : Form[Message], messages : List[Message])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("welcome")){
+
+<script type="text/javascript">
+$(document).ready(function(){
+$('#myTab a').click(function (e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	});
+});
+</script>
+
+	<h1>@text</h1>
+	
+	<div class="row">
+		@if(user.avatar != null) {
+			<div class="col-sm-3">
+				<img src=@routes.Assets.at("images/"+user.nickname+"/"+user.avatar)>
+			</div>
+		}
+		<div class="col-sm-4">
+			<h2>@user.nickname</h2>
+			@if(user.mail!=session.get("email")){
+			<h5><a href=@routes.Email.newMail(user.mail)>@Messages("newMail")</a></h5>
+			}
+		</div>
+	</div>
+	
+	@if(user.mail == session.get("email")) {
+		<ul class="nav nav-tabs" id="myTab">
+		  <li class="active">
+		  	<a href="#text">Texte</a>
+		  </li>
+		  <li>
+		  	<a href="#image">Images</a>
+		  </li>
+		</ul>
+		<div id="myTabContent" class="tab-content">
+	        <div class="tab-pane fade in active" id="text">
+				@form(action=routes.Greeting.addMessage()) {
+					@textarea(messageForm("text"),'_label -> Messages(""), '_showConstraints -> false)
+				
+					<input type="submit" value=@Messages("publish")>
+				}
+	        </div>
+	        <div class="tab-pane fade" id="image">
+	        	@form(action=routes.Greeting.addMessage(), 'enctype -> "multipart/form-data") {
+					@inputFile(messageForm("text"),'_label -> Messages(""), '_showConstraints -> false)
+				
+					<input type="submit" value=@Messages("publish")>
+				}
+	        </div>
+	 	</div>
+ 	}
+	
+	
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-3">
+			Informations
+		</div>
+		
+		<div class="col-sm-3">
+			<ul class="list-group">
+				@for(message <- messages){
+						<li class="list-group-item">	
+						
+						@if(message.messageType == enumeration.MessageType.PICTURE) {
+						<img alt="" src=@routes.Assets.at("images/"+user.nickname+"/"+message.text)>
+						} else {
+							@message.text
+						}
+						@message.dateTime
+
+						<div class="btn-group">
+							@if(user.mail == session.get("email")) {						
+								@form(routes.Greeting.deleteMessage(message.dateTime)) {
+									<input type="submit" value=@Messages("delete")>
+								}	
+							}	
+							
+							<!-- Modal comment -->
+								<div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="modalLabelComment" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								        <h4 class="modal-title" id="modalLabelComment">@Messages("comment")</h4>
+								      </div>
+								      
+										<form method="POST" action="@routes.Greeting.commentMessage(message.dateTime,user.mail)">
+										  <div class="modal-body">
+												<input type="text" name="comment" id="comment" title=@Messages("comment")/>			
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									        <button type="submit" class="btn btn-primary">@Messages("submit")</button>
+									      </div>
+								      </form>
+								    </div>
+								  </div>
+								</div>
+							
+							<a href="#" class="btn btn-default" data-toggle="modal" data-target="#modalComment">
+							  @Messages("comment")
+							</a>
+							
+						</div>
+						
+						<ul>
+						@if(null != message.comments && message.comments.size > 0) {
+							@for(comment <- message.comments) {
+								<li>
+									@comment.text @comment.userMail @comment.dateTime
+								</li>
+							}
+						}
+						</ul>
+						</li>
+				}
+			</ul>
+		</div>
+		
+		<div class="col-sm-4">
+			@menu(user)
+		</div>
+	</div>
+	
+}

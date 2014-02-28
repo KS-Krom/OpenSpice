@@ -1,0 +1,48 @@
+@(message: String, userForm : Form[User])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("index")) {
+
+<h1>@Messages("loginPage")</h1>
+
+	<h4>@message</h4>
+
+	<p>
+	@form(routes.Index.connect()) {
+		<div class="clearfix" id="mail_field">
+		    <label for="mail">@Messages("mailAddress")</label>
+		    <div class="input">
+		        
+		    	<input type="text" id="mail" name="mail"/>
+		
+		        <span class="help-inline"></span>
+		        <span class="help-block"></span> 
+		    </div>
+		</div>
+		
+		<div class="clearfix" id="password_field">
+		    <label for="password">@Messages("password")</label>
+		    <div class="input">
+		        
+		    	<input type="password" id="password" name="password"/>
+		
+		        <span class="help-inline"></span>
+		        <span class="help-block"></span> 
+		    </div>
+		</div>
+		
+		<input type="submit" value=@Messages("submit")>
+	}
+	</p>
+	
+	<p>
+		<a href=@routes.Index.createAccount()>@Messages("createAccount")</a>
+	</p>
+	
+	<p>
+		<a href="@routes.Index.loosePassword()">@Messages("loosePassword")</a>
+	</p>
+
+}

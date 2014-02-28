@@ -1,0 +1,21 @@
+@(mails : List[Mail])
+
+@for((mail, index) <- mails.zipWithIndex) {
+	<div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-parent="#accordion" href="#@mail" id="readMail" @if(!mail.read){onclick="readEmail('@index');"}>
+	          @mail.subject @mail.userMail @mail.dateTime
+	        	@if(request().uri()=="/mail/index" && !mail.read){
+	        		<span class="glyphicon glyphicon-exclamation-sign"></span>
+	        	}
+	        </a>
+	      </h4>
+	    </div>
+	    <div id="@mail" class="panel-collapse collapse in">
+	      <div class="panel-body">
+	      @mail.text
+	      </div>
+	    </div>
+  	</div>
+}

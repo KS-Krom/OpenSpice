@@ -1,0 +1,13 @@
+@(users : Set[User])
+
+	<ul class="list-unstyled">
+		@for(user <- users) {
+				<li>
+					<a href=@routes.Greeting.index(user.nickname)>
+						@user.firstName @user.lastName
+					</a>
+					<br/>
+					<font size="1">@user.mail</font>
+				</li>
+		}
+	</ul>
